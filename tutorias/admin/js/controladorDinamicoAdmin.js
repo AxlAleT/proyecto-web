@@ -3,10 +3,20 @@ $(document).ready(onDocumentReady);
 function onDocumentReady() {
     $('#cerrar_sesion').click(onCerrarSesionClick);
     solicitarDatosAlumnos();
+
+    $('table tbody').on('click', '.modificar, .eliminar', function() {
+        var boleta = $(this).closest('.btn-group').attr('id'); 
+        if ($(this).hasClass('eliminar')) {
+            eliminar(boleta); 
+        } else if ($(this).hasClass('modificar')) {
+            modificar(boleta);
+        }
+    });
+
 }
 
 function onCerrarSesionClick(e) {
-    e.preventDefault(); // Previene la acción por defecto del botón
+    e.preventDefault();
     enviarSolicitudCerrarSesion();
 }
 
@@ -27,11 +37,15 @@ function onCerrarSesionError() {
     alert('Error al cerrar sesión');
 }
 
-function solicitarDatosAlumnos() {
+function solicitarDatosAlumnos(pagina = 1, alumnosPorPagina = 50) {
     $.ajax({
         url: 'php/recuperarAlumnos.php',
         type: 'POST',
         dataType: 'json',
+        data: {
+            pagina: pagina,
+            alumnosPorPagina: alumnosPorPagina
+        },
         success: onRecuperarAlumnosSuccess,
         error: onRecuperarAlumnosError
     });
@@ -39,22 +53,45 @@ function solicitarDatosAlumnos() {
 
 function onRecuperarAlumnosSuccess(alumnos) {
     var tbody = $('table tbody');
-    tbody.empty(); // Limpiar la tabla antes de añadir nuevos datos
+    tbody.empty();
     $.each(alumnos, function(i, alumno) {
         var tr = $('<tr>').append(
             $('<td>').text(alumno.boleta),
-            $('<td>').text(alumno.nombre),
-            $('<td>').text(alumno.apellido_paterno),
-            $('<td>').text(alumno.apellido_materno),
+            $('<td>').text(alumno.nombre + " " + alumno.apellido_paterno + " " + alumno.apellido_materno),
             $('<td>').text(alumno.semestre),
             $('<td>').text(alumno.carrera),
             $('<td>').text(alumno.nombre_tutor),
-            $('<td>').html('<div class="btn-group" role="group"><button class="btn btn-primary btn-sm" id="modificar">Modificar</button><button class="btn btn-danger btn-sm" id="eliminar">Eliminar</button></div>')
+            $('<td>').text(alumno.tipo_tutoria.nombre),
+            $('<td>').html('<div class="btn-group" role="group" id="' + alumno.boleta + '"><button class="btn btn-primary btn-sm modificar">Modificar</button><button class="btn btn-danger btn-sm eliminar">Eliminar</button></div>')
         );
         tbody.append(tr);
     });
 }
 
-function onRecuperarAlumnosError() {
-    alert('Error al recuperar los datos de los alumnos');
+function onRecuperarAlumnosError(jqXHR, textStatus, errorThrown) {
+    alert('Error al recuperar los datos de los alumnos: ' + textStatus);
+}
+
+function eliminar(boleta) {
+    $.ajax({
+        url: 'php/delete.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {boleta: boleta},
+        success: function(response) {
+            if (response.error) {
+                alert('Error al eliminar el alumno: ' + response.error);
+            } else {
+                alert('Alumno eliminado correctamente');
+            }
+        },
+        error: function(xhr, status, error) {
+            alert('Error al eliminar el alumno');
+        }
+    });
+    solicitarDatosAlumnos();
+}
+
+function modificar(boleta) {
+    alert('Modificar alumno con boleta: ' + boleta);
 }
