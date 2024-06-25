@@ -62,8 +62,9 @@
             </div>
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <button class="btn btn-success">Crear Nuevo</button>
-                </div>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createFormModal">
+                        Crear Registro
+                      </button>                </div>
                 <div class="col-md-6">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Buscar" aria-label="Buscar">
@@ -71,6 +72,123 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row mb-3">
+                <div class="modal fade" id="createFormModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel">Nuevo Registro</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <form id="registroForm" class="p-3 mb-2 bg-light text-dark">
+                                <h3 class="mb-3">Datos Personales y Académicos</h3>
+                            
+                                <div class="form-group mb-3">
+                                    <label for="boleta">No. de Boleta:</label>
+                                    <input type="text" class="form-control" id="boleta" name="boleta" maxlength="10" required>
+                                </div>
+                            
+                                <div class="form-group mb-3">
+                                    <label for="nombre">Nombre:</label>
+                                    <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                </div>
+                            
+                                <div class="form-group mb-3">
+                                    <label for="AP">Apellido Paterno:</label>
+                                    <input type="text" class="form-control" id="AP" name="AP" required>
+                                </div>
+                            
+                                <div class="form-group mb-3">
+                                    <label for="AM">Apellido Materno</label>
+                                    <input type="text" class="form-control" id="AM" name="AM" required>
+                                </div>
+                            
+                                <div class="form-group mb-3">
+                                    <label for="telefono">Número de telefono:</label>
+                                    <input type="tel" class="form-control" id="tel" name="tel" maxlength="10" required>
+                                </div>
+                            
+                                <div class="form-group mb-3">
+                                    <label for="semestre">No de Semestre</label>
+                                    <select class="form-select" id="semestre" name="semestre">
+                                        <option value="1">Primero</option>
+                                        <option value="2">Segundo</option>
+                                        <option value="3">Tercero</option>
+                                        <option value="4">Cuarto</option>
+                                        <option value="5">Quinto</option>
+                                        <option value="6">Sexto</option>
+                                        <option value="7">Séptimo</option>
+                                        <option value="8">Octavo</option>
+                                        <option value="9">Noveno</option>
+                                        <option value="10">Décimo</option>
+                                    </select>
+                                </div>
+                            
+                                <div class="form-group mb-3">
+                                    <label for="carrera">Carrera que estas cursando</label>
+                                    <select class="form-select" id="carrera" name="carrera">
+                                        <option value="ISC">Ingenieria en Sistemas Computacionales</option>
+                                        <option value="LCD">Licenciatura en Ciencia de Datos</option>
+                                        <option value="IIA">Ingenieria en Inteligencia Artificial</option>
+                                    </select>
+                                </div>
+                            
+                                <div class="form-group mb-3">
+                                    <label for="genero_tutor">Prefieres que tu tutor sea ¿Hombre o Mujer?</label>
+                                    <select class="form-select" id="genero_tutor" name="genero_tutor">
+                                        <option value="" disabled selected>Selecciona una opción</option>
+                                        <option value="H">Hombre</option>
+                                        <option value="M">Mujer</option>
+                                    </select>
+                                </div>
+                            
+                                <div class="form-group mb-3">
+                                    <label for="tutor">Tutores con disponibilidad</label>
+                                    <select class="form-select" id="tutor" name="tutor">
+                                        <option value="H">Tutor</option>
+                                    </select>
+                                </div>
+                            
+                                <div class="form-group mb-3">
+                                    <label for="tipo_tutoria">Tutoria de interes</label>
+                                    <select class="form-select" id="tipo_tutoria" name="tipo_tutoria">
+                                        <option value="1">Individual</option>
+                                        <option value="2">Grupal</option>
+                                        <option value="3">Recuperación Académica</option>
+                                        <option value="4">Regularización</option>
+                                        <option value="5">Entre Pares</option>
+                                    </select>
+                                </div>
+                            
+                                <h3 class="mb-3">Cuenta</h3>
+                            
+                                <div class="form-group mb-3">
+                                    <label for="correo">Correo Institucional</label>
+                                    <input type="email" class="form-control" id="correo" name="correo" required>
+                                </div>
+                            
+                                <div class="form-group mb-3">
+                                    <label for="contrasena">Contraseña:</label>
+                                    <input type="password" class="form-control" id="contrasena" name="contrasena" required>
+                                </div>
+                            
+                                <button id="btnRegistrar" type="submit" class="btn btn-primary">Registrar</button>
+                                <button type="reset" class="btn btn-secondary">Limpiar</button>
+                            </form>
+
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" id="submitForm">Enviar</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col">
                     <div class="table-responsive">
@@ -89,21 +207,6 @@
                             </thead>
 
                             <tbody>
-                                <tr>
-                                    <td scope="row">202100001</td>
-                                    <td>Juan</td>
-                                    <td>5</td>
-                                    <td>ISC</td>
-                                    <td>Dr. Martínez</td>
-                                    <td>a</td>
-                                    <td>
-                                        <div class="btn-group" role="group">
-                                            <button class="btn btn-primary btn-sm" id="modificar">Modificar</button>
-                                            <button class="btn btn-danger btn-sm" id="eliminar">Eliminar</button>
-                                        </div>
-                                    </td>                                    
-                                </tr>
-
                             </tbody>
                             
                           </table>

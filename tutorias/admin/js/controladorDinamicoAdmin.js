@@ -12,7 +12,69 @@ function onDocumentReady() {
             modificar(boleta);
         }
     });
+    $('#create').on('click', create);
 
+
+    $('#submitForm').click(function() {
+        var formData = $('#createForm').serialize(); // Serializa los datos del formulario
+        $.ajax({
+          type: "POST",
+          url: "php/create.php", // Asegúrate de que la ruta sea correcta
+          data: formData,
+          success: function(response) {
+            var data = JSON.parse(response);
+            if(data.error) {
+              alert("Error: " + data.error);
+            } else {
+              alert("Registro creado con éxito.");
+              $('#createFormModal').modal('hide'); // Cierra el modal
+              $('#createForm')[0].reset(); // Resetea el formulario
+            }
+          },
+          error: function() {
+            alert("Error en la solicitud AJAX.");
+          }
+        });
+      });
+
+      const $selectTutor = $("#tutor");
+      const $selectGenero = $("#genero_tutor");
+    
+      $selectTutor.prop("disabled", true);
+    
+      $selectGenero.change(function() {
+          const generoSeleccionado = $(this).val();
+    
+          $selectTutor.empty();
+    
+          jQuery.ajax({
+              url: '../php/tutoresDisponibles.php',
+              method: 'POST',
+              data: { genero: generoSeleccionado },
+              dataType: 'json',
+              success: function(data) {
+                  if (data.length > 0) {
+                      $selectTutor.prop("disabled", false);
+    
+                      data.forEach(tutor => {
+                          $selectTutor.append(`<option value="${tutor.id}">${tutor.nombre} ${tutor.apellido_paterno} ${tutor.apellido_materno}</option>`);
+                      });
+                  } else {
+                      $selectTutor.append('<option value="">No se encontraron tutores.</option>');
+                  }
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                  let errorMessage = "Error al cargar los tutores.";
+                  if (jqXHR.status === 404) {
+                      errorMessage = "Archivo PHP no encontrado.";
+                  } else if (jqXHR.status === 500) {
+                      errorMessage = "Error interno del servidor.";
+                  }
+                  alert(errorMessage);
+                  console.error(errorThrown); 
+              }
+          });
+      });
 }
 
 function onCerrarSesionClick(e) {
@@ -94,4 +156,8 @@ function eliminar(boleta) {
 
 function modificar(boleta) {
     alert('Modificar alumno con boleta: ' + boleta);
+}
+
+function create(){
+
 }

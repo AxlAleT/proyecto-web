@@ -44,98 +44,100 @@
     
     <div class="container mt-4">
         
-        <form id="registroForm">
-            <h3>Datos Personales y Académicos</h3>
-            <br><br>
-            <div class="form-group">
+        <form id="registroForm" class="p-3 mb-2 bg-light text-dark">
+            <h3 class="mb-3">Datos Personales y Académicos</h3>
+        
+            <div class="form-group mb-3">
                 <label for="boleta">No. de Boleta:</label>
                 <input type="text" class="form-control" id="boleta" name="boleta" maxlength="10" required>
-            </div><br><br>
-
-            <div class="form-group">
+            </div>
+        
+            <div class="form-group mb-3">
                 <label for="nombre">Nombre:</label>
                 <input type="text" class="form-control" id="nombre" name="nombre" required>
-            </div><br><br>
-
-            <div class="form-group">
+            </div>
+        
+            <div class="form-group mb-3">
                 <label for="AP">Apellido Paterno:</label>
                 <input type="text" class="form-control" id="AP" name="AP" required>
-            </div><br><br>
-
-            <div class="form-group">
+            </div>
+        
+            <div class="form-group mb-3">
                 <label for="AM">Apellido Materno</label>
-                <input type="text" class="form-control" id="AM" name="AM"  required>
-            </div><br><br>
-
-            <div class="form-group">
+                <input type="text" class="form-control" id="AM" name="AM" required>
+            </div>
+        
+            <div class="form-group mb-3">
                 <label for="telefono">Número de telefono:</label>
                 <input type="tel" class="form-control" id="tel" name="tel" maxlength="10" required>
-            </div><br><br>
-
-
-
-            <label for="semestre">No de Semestre</label><br>
-            <select id="semestre" name="semestre">
-                <option value="1">Primero</option>
-                <option value="2">Segundo</option>
-                <option value="3">Tercero</option>
-                <option value="4">Cuarto</option>
-                <option value="5">Quinto</option>
-                <option value="6">Sexto</option>
-                <option value="7">Séptimo</option>
-                <option value="8">Octavo</option>
-                <option value="9">Noveno</option>
-                <option value="10">Décimo</option>
-            </select><br><br>
-
-            <div class="form-group">
-                <label for="carrera">Carrera que estas cursando</label><br>
-                <select id="carrera" name="carrera">
+            </div>
+        
+            <div class="form-group mb-3">
+                <label for="semestre">No de Semestre</label>
+                <select class="form-select" id="semestre" name="semestre">
+                    <option value="1">Primero</option>
+                    <option value="2">Segundo</option>
+                    <option value="3">Tercero</option>
+                    <option value="4">Cuarto</option>
+                    <option value="5">Quinto</option>
+                    <option value="6">Sexto</option>
+                    <option value="7">Séptimo</option>
+                    <option value="8">Octavo</option>
+                    <option value="9">Noveno</option>
+                    <option value="10">Décimo</option>
+                </select>
+            </div>
+        
+            <div class="form-group mb-3">
+                <label for="carrera">Carrera que estas cursando</label>
+                <select class="form-select" id="carrera" name="carrera">
                     <option value="ISC">Ingenieria en Sistemas Computacionales</option>
                     <option value="LCD">Licenciatura en Ciencia de Datos</option>
                     <option value="IIA">Ingenieria en Inteligencia Artificial</option>
                 </select>
-            </div><br><br>
-
-            <label for="genero_tutor">Prefieres que tu tutor sea ¿Hombre o Mujer?</label><br>
-            <select id="genero_tutor" name="genero_tutor">
-                <option value="" disabled selected>Selecciona una opción</option> 
-                <option value="H">Hombre</option>
-                <option value="M">Mujer</option>
-            </select><br><br>
-
-            <label for="tutor">Tutores con disponibilidad</label><br>
-            <select id="tutor" name="tutor">
-                <option value="H">Tutor</option>
-            </select><br><br>
-
-            <label for="tipo_tutoria">Tutoria de interes</label><br>
-            <select id="tipo_tutoria" name="tipo_tutoria">
-                <option value="1">Individual</option>
-                <option value="2">Grupal</option>
-                <option value="3">Recuperación Académica</option>
-                <option value="4">Regularización</option>
-                <option value="5">Entre Pares</option>
-            </select>
-
-            <h3>Cuenta</h3>
-            <br>
-            <div class="form-group">
+            </div>
+        
+            <div class="form-group mb-3">
+                <label for="genero_tutor">Prefieres que tu tutor sea ¿Hombre o Mujer?</label>
+                <select class="form-select" id="genero_tutor" name="genero_tutor">
+                    <option value="" disabled selected>Selecciona una opción</option>
+                    <option value="H">Hombre</option>
+                    <option value="M">Mujer</option>
+                </select>
+            </div>
+        
+            <div class="form-group mb-3">
+                <label for="tutor">Tutores con disponibilidad</label>
+                <select class="form-select" id="tutor" name="tutor">
+                    <option value="H">Tutor</option>
+                </select>
+            </div>
+        
+            <div class="form-group mb-3">
+                <label for="tipo_tutoria">Tutoria de interes</label>
+                <select class="form-select" id="tipo_tutoria" name="tipo_tutoria">
+                    <option value="1">Individual</option>
+                    <option value="2">Grupal</option>
+                    <option value="3">Recuperación Académica</option>
+                    <option value="4">Regularización</option>
+                    <option value="5">Entre Pares</option>
+                </select>
+            </div>
+        
+            <h3 class="mb-3">Cuenta</h3>
+        
+            <div class="form-group mb-3">
                 <label for="correo">Correo Institucional</label>
                 <input type="email" class="form-control" id="correo" name="correo" required>
             </div>
-            <br>
-            <br>
-            <div class="form-group">
+        
+            <div class="form-group mb-3">
                 <label for="contrasena">Contraseña:</label>
                 <input type="password" class="form-control" id="contrasena" name="contrasena" required>
             </div>
-            <br>
-            <br>
+        
             <button id="btnRegistrar" type="submit" class="btn btn-primary">Registrar</button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button type="reset" class="btn btn-secondary">Limpiar</button>
-            <br><br><br><br><br><br>
         </form>
 
         <div id="confirmationModal" class="modal">
