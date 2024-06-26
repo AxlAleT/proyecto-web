@@ -2,6 +2,8 @@ $(document).ready(onDocumentReady);
 
 function onDocumentReady() {
     $('#cerrar_sesion').click(onCerrarSesionClick);
+    $('#inicio').click(onCerrarSesionClick);
+
     solicitarDatosAlumnos();
 
     $('table tbody').on('click', '.modificar, .eliminar', function() {
@@ -19,7 +21,7 @@ function onDocumentReady() {
         var formData = $('#createForm').serialize(); // Serializa los datos del formulario
         $.ajax({
           type: "POST",
-          url: "php/create.php", // Asegúrate de que la ruta sea correcta
+          url: "php/create.php",
           data: formData,
           success: function(response) {
             var data = JSON.parse(response);

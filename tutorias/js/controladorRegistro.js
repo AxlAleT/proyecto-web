@@ -39,7 +39,7 @@ $(document).ready(function() {
       });
   });
 
-
+  /*
     $("#registroForm").submit(function(event) {
         event.preventDefault();
         const formData = {};
@@ -82,4 +82,6 @@ $(document).ready(function() {
             $("#registroForm").show();
         });
     });
+
+ */
 });

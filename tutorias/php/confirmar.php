@@ -1,54 +1,3 @@
-<?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "tutorias";
-
-// Crear conexión
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Verificar conexión
-if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
-}
-
-// Obtener el registro más reciente
-$sql = "SELECT e.boleta, e.nombre, e.apellido_paterno, e.apellido_materno, e.telefono, e.semestre, e.carrera, t.genero AS genero_tutor, e.correo, e.fecha_registro
-FROM estudiantes e
-LEFT JOIN estudianteTutor et ON e.boleta = et.id_estudiante
-LEFT JOIN tutores t ON et.id_tutor = t.id
-ORDER BY e.fecha_registro DESC
-LIMIT 1";
-
-if ($result = $conn->query($sql)) {
-    if ($result->num_rows > 0) {
-        // Mostrar los datos del registro más reciente
-        $row = $result->fetch_assoc();
-        $boleta = $row['boleta'];
-        $nombre = $row['nombre'];
-        $apellido_paterno = $row['apellido_paterno'];
-        $apellido_materno = $row['apellido_materno'];
-        $telefono = $row['telefono'];
-        $semestre = $row['semestre'];
-        $carrera = $row['carrera'];
-        $genero_tutor = $row['genero_tutor']; 
-        $correo = $row['correo'];
-    } else {
-        echo "No se encontró ningún registro.";
-        exit();
-    }
-    $result->free();
-} else {
-    die("Error en la consulta SQL: " . $conn->error);
-}
-
-$conn->close();
-?>
-
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -66,6 +15,22 @@ $conn->close();
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="../css/styles.css" rel="stylesheet" />
+        <script>
+    function habilitarCampos() {
+        document.getElementById("boleta").disabled = false;
+        document.getElementById("nombre").disabled = false;
+        document.getElementById("AP").disabled = false;
+        document.getElementById("AM").disabled = false;
+        document.getElementById("tel").disabled = false;
+        document.getElementById("semestre").disabled = false;
+        document.getElementById("carrera").disabled = false;
+        document.getElementById("genero_tutor").disabled = false;
+        document.getElementById("tipo_tutoria").disabled = false;
+        document.getElementById("tutor").disabled = false;
+        document.getElementById("correo").disabled = false;
+        document.getElementById("contrasena").disabled = false;
+    }
+</script>
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -81,7 +46,6 @@ $conn->close();
                         <li class="nav-item"><a class="nav-link" href="../index.html">Inicio</a></li>
                         <li class="nav-item"><a class="nav-link" href="../registro.html">Registro</a></li>
                         <li class="nav-item"><a class="nav-link" href="#Administrador">Administrador</a></li>
-                        <li class="nav-item"><a class="nav-link" href="pdf.php">Recuperar PDF</a></li>
                     </ul>
                 </div>
             </div>
@@ -93,52 +57,35 @@ $conn->close();
                 <div class="masthead-heading text-uppercase">Registro</div>
             </div>
         </header>
-    
-    <div class="container mt-4">
-        <br><br>
-        <h3>Registro Exitoso</h3>
-        <table class="table table-bordered">
-            <tr>
-                <th>No. de Boleta</th>
-                <td><?php echo htmlspecialchars($boleta); ?></td>
-            </tr>
-            <tr>
-                <th>Nombre</th>
-                <td><?php echo htmlspecialchars($nombre); ?></td>
-            </tr>
-            <tr>
-                <th>Apellido Paterno</th>
-                <td><?php echo htmlspecialchars($apellido_paterno); ?></td>
-            </tr>
-            <tr>
-                <th>Apellido Materno</th>
-                <td><?php echo htmlspecialchars($apellido_materno); ?></td>
-            </tr>
-            <tr>
-                <th>Telefono</th>
-                <td><?php echo htmlspecialchars($telefono); ?></td>
-            </tr>
-            <tr>
-                <th>Semestre</th>
-                <td><?php echo htmlspecialchars($semestre); ?></td>
-            </tr>
-            <tr>
-                <th>Carrera</th>
-                <td><?php echo htmlspecialchars($carrera); ?></td>
-            </tr>
-            <tr>
-                <th>Genero del Tutor</th>
-                <td><?php echo htmlspecialchars($genero_tutor); ?></td>
-            </tr>
-            <tr>
-                <th>Correo Electrónico</th>
-                <td><?php echo htmlspecialchars($correo); ?></td>
-            </tr>
-        </table>
-        <br><br>
-    </div>
+        <div class="container mt-4">
 
-    <footer class="footer">
+        <form id="confirmarForm" action="registro.php" method="POST">
+            <h3>Confirmación de Registro</h3>
+            <p>Formulario enviado con éxito</p>
+            <strong>No. de Boleta:</strong><input type="text" class="form-control" id="boleta" name="boleta" value="<?php echo htmlspecialchars($_POST['boleta']); ?>" disabled>
+            <strong>Nombre:</strong><input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo htmlspecialchars($_POST['nombre']); ?>" disabled>
+            <strong>Apellido paterno:</strong><input type="text" class="form-control" id="AP" name="AP" value="<?php echo htmlspecialchars($_POST['AP']); ?>" disabled>
+            <strong>Apellido materno:</strong><input type="text" class="form-control" id="AM" name="AM" value="<?php echo htmlspecialchars($_POST['AM']); ?>" disabled>
+            <strong>Telefono:</strong><input type="tel" class="form-control" id="tel" name="tel" value="<?php echo htmlspecialchars($_POST['tel']); ?>" disabled>
+            <strong>Semestre:</strong><input type="text" class="form-control" id="semestre" name="semestre" value="<?php echo htmlspecialchars($_POST['semestre']); ?>" disabled>
+            <strong>Carrera:</strong><input type="text" class="form-control" id="carrera" name="carrera" value="<?php echo htmlspecialchars($_POST['carrera']); ?>" disabled>
+            <strong>Genero del tutor:</strong><input type="text" class="form-control" id="genero_tutor" name="genero_tutor" value="<?php echo htmlspecialchars($_POST['genero_tutor']); ?>" disabled>
+            <strong>Tutor:</strong><input type="text" class="form-control" id="tutor" name="tutor" value="<?php echo htmlspecialchars($_POST['tutor']); ?>" disabled>
+            <strong>Tipo de tutoria:</strong><input type="text" class="form-control" id="tipo_tutoria" name="tipo_tutoria" value="<?php echo htmlspecialchars($_POST['tipo_tutoria']); ?>" disabled>
+            <strong>Correo:</strong><input type="email" class="form-control" id="correo" name="correo" value="<?php echo htmlspecialchars($_POST['correo']); ?>" disabled>
+            <strong>Contraseña:</strong><input type="text" class="form-control" id="contrasena" name="contrasena" value="<?php echo htmlspecialchars($_POST['contrasena']); ?>" disabled>
+            <br><br>
+            <button type="submit" class="btn btn-primary" onclick="habilitarCampos()">Aceptar</button>
+            <button type="button" class="btn btn-secondary" onclick="habilitarCampos()">Modificar</button>
+            <br><br>
+        </form>
+
+        
+
+        </div>
+
+
+        <footer class="footer">
         <div class="footer-content container">
             <div class="link">
                 <h3>Instituto Politécnico Nacional</h3>
@@ -159,7 +106,7 @@ $conn->close();
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
-    <script src="js/scripts.js"></script>
+    <script src="../js/scripts.js"></script>
     <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
     <!-- * *                               SB Forms JS                               * *-->
     <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
