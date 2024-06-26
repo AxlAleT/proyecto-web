@@ -80,7 +80,7 @@ $conn->close();
                     <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
                         <li class="nav-item"><a class="nav-link" href="../index.html">Inicio</a></li>
                         <li class="nav-item"><a class="nav-link" href="../registro.html">Registro</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#Administrador">Administrador</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../admin.html">Administrador</a></li>
                         <li class="nav-item"><a class="nav-link" href="pdf.php">Recuperar PDF</a></li>
                     </ul>
                 </div>

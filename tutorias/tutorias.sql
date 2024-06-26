@@ -55,11 +55,23 @@ VALUES (1, 'admin@ipn.mx', '$2y$10$iDARE96VriTRjI6fgTEtju.uYU66/NVbmx.1YloNbOU1F
 
 INSERT INTO tutores (nombre, apellido_paterno, apellido_materno, genero)
 VALUES
-    ('Juan', 'Pérez', 'López', 'H'),
-    ('María', 'Gómez', 'García', 'M'),
-    ('Carlos', 'Martínez', 'Hernández', 'H'),
-    ('Ana', 'Rodríguez', 'Sánchez', 'M'),
-    ('Luis', 'López', 'González', 'H'),
-    ('Laura', 'García', 'Ramírez', 'M'),
-    ('Pedro', 'Hernández', 'Flores', 'H'),
-    ('Sofía', 'Sánchez', 'Torres', 'M');
+    ('Patricia', 'Escamilla', 'Miranda', 'M'),
+    ('Martha Patricia', 'Jiménez', 'Villanueva', 'M'),
+    ('Laura', 'Méndez', 'Segundo', 'M'),
+    ('Laura', 'Muñoz', 'Salazar', 'M'),
+    ('Judith Margarita', 'Tirado', 'Lule', 'M'),
+    ('Karina', 'Viveros', 'Vela', 'M'),
+    ('Rocio', 'Palacios', 'Solano', 'M'),
+    ('Claudia', 'Díaz', 'Huerta', 'M'),
+    ('Elia', 'Ramírez', 'Martínez', 'M'),
+    ('Gabriela', 'López', 'Ruiz', 'M'),
+    ('José Asunción', 'Enríquez', 'Zárate', 'H'),
+    ('Alberto Jesús', 'Alcántara', 'Méndez', 'H'),
+    ('Felipe de Jesús', 'Figueroa', 'del Prado', 'H'),
+    ('Erick', 'Linares', 'Vallejo', 'H'),
+    ('Edgar Armando', 'Catalán', '', 'H'),
+    ('Jorge', 'Cortés', 'Galicia', 'H'),
+    ('Edgardo', 'Franco', 'Martínez', 'H'),
+    ('Vicente', 'García', 'Sales', 'H'),
+    ('Iván', 'Mosso', 'García', 'H'),
+    ('Miguel Ángel', 'Rodríguez', '', 'H');

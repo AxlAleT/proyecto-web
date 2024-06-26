@@ -22,7 +22,7 @@ $genero = $_POST['genero'];
 $sql = "SELECT t.*
         FROM tutores t
         WHERE t.genero = ?
-          AND t.id NOT IN (SELECT id_tutor FROM estudiantetutor)
+          AND t.id NOT IN (SELECT id_tutor FROM estudianteTutor)
 
         UNION 
 
@@ -31,7 +31,7 @@ $sql = "SELECT t.*
         WHERE t.genero = ?
           AND t.id IN (
             SELECT te.id_tutor
-            FROM estudiantetutor te
+            FROM estudianteTutor te
             GROUP BY te.id_tutor
             HAVING COUNT(te.id_estudiante) < 15
           )";

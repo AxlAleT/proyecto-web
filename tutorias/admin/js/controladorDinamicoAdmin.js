@@ -13,30 +13,28 @@ function onDocumentReady() {
         } else if ($(this).hasClass('modificar')) {
             modificar(boleta);
         }
+        solicitarDatosAlumnos();
     });
     $('#create').on('click', create);
 
 
     $('#submitForm').click(function() {
-        var formData = $('#createForm').serialize(); // Serializa los datos del formulario
+        var formData = $('#registroForm').serialize();
         $.ajax({
           type: "POST",
           url: "php/create.php",
           data: formData,
-          success: function(response) {
-            var data = JSON.parse(response);
-            if(data.error) {
-              alert("Error: " + data.error);
-            } else {
+          success: function() {
               alert("Registro creado con éxito.");
               $('#createFormModal').modal('hide'); // Cierra el modal
-              $('#createForm')[0].reset(); // Resetea el formulario
-            }
-          },
+              $('#registroForm')[0].reset(); // Resetea el formulario
+              solicitarDatosAlumnos();
+            },
           error: function() {
             alert("Error en la solicitud AJAX.");
           }
         });
+            solicitarDatosAlumnos();
       });
 
       const $selectTutor = $("#tutor");
