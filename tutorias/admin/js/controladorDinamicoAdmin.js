@@ -75,6 +75,18 @@ function onDocumentReady() {
               }
           });
       });
+
+
+      $('#buscar').click(function() {
+        datos = $('#busquedaBoleta').serialize();
+        $.ajax({
+            type: "POST",
+            url: 'php/read.php',
+            data: datos,
+            success: onRecuperarAlumnosSuccess,
+            error: onRecuperarAlumnosError
+        });
+    });
 }
 
 function onCerrarSesionClick(e) {
