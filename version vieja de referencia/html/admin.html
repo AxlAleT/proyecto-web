@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Tutorías ESCOM</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('adminForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const username = document.getElementById('adminUsuario').value;
+                const password = document.getElementById('adminContrasena').value;
+
+                if (!username || !password) {
+                    const errorElement = document.getElementById('errorMessage');
+                    errorElement.textContent = 'Por favor, completa todos los campos del formulario.';
+                    errorElement.style.display = 'block';
+                } else {
+                    this.submit();
+                }
+            });
+            const params = new URLSearchParams(window.location.search);
+            const errorElement = document.getElementById('errorMessage');
+            if (params.has('error')) {
+                if (params.get('error') === 'invalid_credentials') {
+                    errorElement.textContent = 'Nombre de usuario o contraseña incorrectos.';
+                    errorElement.style.display = 'block';
+                } else if (params.get('error') === 'missing_credentials') {
+                    errorElement.textContent = 'Por favor, completa todos los campos del formulario.';
+                    errorElement.style.display = 'block';
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+    <header class="header">
+        <div class="menu container">
+           <a href="https://www.escom.ipn.mx/" class="logo">ESCOM</a>
+       
+           <input type="checkbox" id="menu">
+           <label for="menu">
+               <img src="../images/menu.png" class="menu-icono" alt="menu">
+           </label>
+       
+           <nav class="navbar">
+               <ul>
+                   <li><a href="../index.html">Inicio</a></li>
+                   <li><a href="registro.html">Registro</a></li>
+                   <li><a href="admin.html">Ingreso</a></li>
+               </ul>
+           </nav>
+        </div>
+        <div class="header-content container">
+            <h1>Administradores</h1>
+        </div>
+    </header>
+
+    <div class="container mt-4">
+        <h2>Admin - Ingreso al Sistema</h2>
+        <form id="adminForm" action="../php/validar_admin.php" method="POST">
+            <div class="form-group">
+                <label for="adminUsuario">Usuario:</label>
+                <input type="text" class="form-control" id="adminUsuario" name="adminUsuario" required>
+            </div>
+            <div class="form-group">
+                <label for="adminContrasena">Contraseña:</label>
+                <input type="password" class="form-control" id="adminContrasena" name="adminContrasena" required>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Ingresar</button>
+        </form>
+        <div id="errorMessage" class="alert alert-danger mt-3" style="display:none;">
+            <!-- Mensaje de error -->
+        </div>
+    </div>
+    <br><br><br><br><br><br>
+    <footer class="footer">
+        <div class="footer-content container">
+            <div class="link">
+                <h3>Instituto Politécnico Nacional</h3>
+                <ul>
+                    <li>D.R. Instituto Politécnico Nacional (IPN). Av. Luis Enrique Erro S/N, Unidad Profesional Adolfo López Mateos, Zacatenco, Alcaldía Gustavo A. Madero, C.P. 07738, Ciudad de México. Conmutador: 55 57 29 60 00 / 55 57 29 63 00.
+                        Esta página es una obra intelectual protegida por la Ley Federal del Derecho de Autor, puede ser reproducida con fines no lucrativos, siempre y cuando no se mutile, se cite la fuente completa y su dirección electrónica; su uso para otros fines, requiere autorización previa y por escrito de la Dirección General del Instituto.
+                    </li>
+                </ul>
+                <img src="../images/educacion2.png" alt="educacion2.png">
+            </div>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

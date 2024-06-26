@@ -6,15 +6,14 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Tutorias-ESCOM</title>
-        <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-        <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
-        <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
+
+        <script src="js/jquery.js"></script> 
+        <script src="js/controladorRegistro.js"></script>
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -45,100 +44,111 @@
     
     <div class="container mt-4">
         
-        <form id="registroForm" action="php/confirmar.php" method="POST">
-            <h3>Datos Personales y Académicos</h3>
-            <br>
-            <div class="form-group">
+        <form id="registroForm" class="p-3 mb-2 bg-light text-dark">
+            <h3 class="mb-3">Datos Personales y Académicos</h3>
+        
+            <div class="form-group mb-3">
                 <label for="boleta">No. de Boleta:</label>
                 <input type="text" class="form-control" id="boleta" name="boleta" maxlength="10" required>
             </div>
-            <br>
-            <div class="form-group">
+        
+            <div class="form-group mb-3">
                 <label for="nombre">Nombre:</label>
                 <input type="text" class="form-control" id="nombre" name="nombre" required>
             </div>
-            <div class="form-group">
+        
+            <div class="form-group mb-3">
                 <label for="AP">Apellido Paterno:</label>
                 <input type="text" class="form-control" id="AP" name="AP" required>
             </div>
-            <br>
-            <div class="form-group">
+        
+            <div class="form-group mb-3">
                 <label for="AM">Apellido Materno</label>
-                <input type="text" class="form-control" id="AM" name="AM"  required>
+                <input type="text" class="form-control" id="AM" name="AM" required>
             </div>
-
-            <div class="form-group">
+        
+            <div class="form-group mb-3">
                 <label for="telefono">Número de telefono:</label>
                 <input type="tel" class="form-control" id="tel" name="tel" maxlength="10" required>
             </div>
-
-
-
-            <label for="semestre">No de Semestre</label><br>
-            <select id="semestre" name="semestre">
-                <option value="1">Primero</option>
-                <option value="2">Segundo</option>
-                <option value="3">Tercero</option>
-                <option value="4">Cuarto</option>
-                <option value="5">Quinto</option>
-                <option value="6">Sexto</option>
-                <option value="7">Séptimo</option>
-                <option value="8">Octavo</option>
-                <option value="9">Noveno</option>
-                <option value="10">Décimo</option>
-            </select><br><br>
-
-            <div class="form-group">
-                <label for="carrera">Carrera que estas cursando</label><br>
-                <select id="carrera" name="carrera">
+        
+            <div class="form-group mb-3">
+                <label for="semestre">No de Semestre</label>
+                <select class="form-select" id="semestre" name="semestre">
+                    <option value="1">Primero</option>
+                    <option value="2">Segundo</option>
+                    <option value="3">Tercero</option>
+                    <option value="4">Cuarto</option>
+                    <option value="5">Quinto</option>
+                    <option value="6">Sexto</option>
+                    <option value="7">Séptimo</option>
+                    <option value="8">Octavo</option>
+                    <option value="9">Noveno</option>
+                    <option value="10">Décimo</option>
+                </select>
+            </div>
+        
+            <div class="form-group mb-3">
+                <label for="carrera">Carrera que estas cursando</label>
+                <select class="form-select" id="carrera" name="carrera">
                     <option value="ISC">Ingenieria en Sistemas Computacionales</option>
                     <option value="LCD">Licenciatura en Ciencia de Datos</option>
                     <option value="IIA">Ingenieria en Inteligencia Artificial</option>
                 </select>
-            </div><br><br>
-
-            <label for="genero_tutor">Prefieres que tu tutor sea ¿Hombre o Mujer?</label><br>
-            <select id="genero_tutor" name="genero_tutor">
-                <option value="" disabled selected>Selecciona una opción</option> 
-                <option value="H">Hombre</option>
-                <option value="M">Mujer</option>
-            </select><br><br>
-
-            <label for="tutor">Tutores con disponibilidad</label><br>
-            <select id="tutor" name="tutor">
-                <option value="1">Tutor</option>
-            </select><br><br>
-
-            <label for="tipo_tutoria">Tutoria de interes</label><br>
-            <select id="id_tipo_tutoria" name="tipo_tutoria">
-                <option value="1">Individual</option>
-                <option value="2">Grupal</option>
-                <option value="3">Recuperación Académica</option>
-                <option value="4">Regularización</option>
-                <option value="5">Entre Pares</option>
-            </select>
-
-
-            <br>
-            <h3>Cuenta</h3>
-            <br>
-            <div class="form-group">
+            </div>
+        
+            <div class="form-group mb-3">
+                <label for="genero_tutor">Prefieres que tu tutor sea ¿Hombre o Mujer?</label>
+                <select class="form-select" id="genero_tutor" name="genero_tutor">
+                    <option value="" disabled selected>Selecciona una opción</option>
+                    <option value="H">Hombre</option>
+                    <option value="M">Mujer</option>
+                </select>
+            </div>
+        
+            <div class="form-group mb-3">
+                <label for="tutor">Tutores con disponibilidad</label>
+                <select class="form-select" id="tutor" name="tutor">
+                    <option value="H">Tutor</option>
+                </select>
+            </div>
+        
+            <div class="form-group mb-3">
+                <label for="tipo_tutoria">Tutoria de interes</label>
+                <select class="form-select" id="tipo_tutoria" name="tipo_tutoria">
+                    <option value="1">Individual</option>
+                    <option value="2">Grupal</option>
+                    <option value="3">Recuperación Académica</option>
+                    <option value="4">Regularización</option>
+                    <option value="5">Entre Pares</option>
+                </select>
+            </div>
+        
+            <h3 class="mb-3">Cuenta</h3>
+        
+            <div class="form-group mb-3">
                 <label for="correo">Correo Institucional</label>
                 <input type="email" class="form-control" id="correo" name="correo" required>
             </div>
-            <br>
-            <br>
-            <div class="form-group">
+        
+            <div class="form-group mb-3">
                 <label for="contrasena">Contraseña:</label>
                 <input type="password" class="form-control" id="contrasena" name="contrasena" required>
             </div>
-            <br>
-            <br>
-            <button type="submit" class="btn btn-primary">Registrar</button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        
+            <button id="btnRegistrar" type="submit" class="btn btn-primary">Registrar</button>
             <button type="reset" class="btn btn-secondary">Limpiar</button>
-            <br><br><br><br><br><br>
         </form>
+
+        <div id="confirmationModal" class="modal">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <div id="modalTable"></div> 
+                <button id="btnConfirmar">Confirmar</button>
+                <button id="btnModificar">Modificar</button>
+            </div>
+        </div>
+
     </div>
     <footer class="footer">
         <div class="footer-content container">
@@ -151,7 +161,7 @@
 
                     Esta página es una obra intelectual protegida por la Ley Federal del Derecho de Autor, puede ser reproducida con fines no lucrativos, siempre y cuando no se mutile, se cite la fuente completa y su dirección electrónica; su uso para otros fines, requiere autorización previa y por escrito de la Dirección General del Instituto.</li>
             </ul>
-            <img src ="images/educacion2.png" alt="educacion2.png">
+            <img src ="assets/img/educacion2.png" alt="educacion2.png">
             </div>
 
 
@@ -159,19 +169,10 @@
         </div>
 
     </footer>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="js/script.js"></script>
-    <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Core theme JS-->
-    <script src="js/scripts.js"></script>
-    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-    <!-- * *                               SB Forms JS                               * *-->
-    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <script src="js/scripts.js"></script> 
     <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 </html>

@@ -6,17 +6,14 @@ error_reporting(E_ALL);
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "tutorias";
+$dbname = "escom_registro_tutorias";
 
-// Crear conexión
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Verificar conexión
 if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
-// Obtener el registro más reciente
 $sql = "SELECT e.boleta, e.nombre, e.apellido_paterno, e.apellido_materno, e.telefono, e.semestre, e.carrera, e.genero_tutor, e.correo, e.fecha_registro
 FROM estudiantes e
 ORDER BY e.fecha_registro DESC
@@ -24,7 +21,6 @@ LIMIT 1";
 
 if ($result = $conn->query($sql)) {
     if ($result->num_rows > 0) {
-        // Mostrar los datos del registro más reciente
         $row = $result->fetch_assoc();
         $boleta = $row['boleta'];
         $nombre = $row['nombre'];
@@ -33,7 +29,7 @@ if ($result = $conn->query($sql)) {
         $telefono = $row['telefono'];
         $semestre = $row['semestre'];
         $carrera = $row['carrera'];
-        $genero_tutor = $row['genero_tutor']; 
+        $genero_tutor = $row['genero_tutor'];
         $correo = $row['correo'];
     } else {
         echo "No se encontró ningún registro.";
@@ -49,48 +45,35 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Tutorias-ESCOM</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Font Awesome icons (free version)-->
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-        <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="../css/styles.css" rel="stylesheet" />
-    </head>
-    <body id="page-top">
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
-            <div class="container">
-                <a class="navbar-brand" href="https://www.escom.ipn.mx/">ESCOM</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
-                    <i class="fas fa-bars ms-1"></i>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="../index.html">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="../registro.html">Registro</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#Administrador">Administrador</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#PDF">Recuperar PDF</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <!-- Masthead-->
-        <header class="masthead">
-            <div class="container">
-                <div class="masthead-subheading">ESCOM</div>
-                <div class="masthead-heading text-uppercase">Registro</div>
-            </div>
-        </header>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Exitoso - ESCOM</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="menu container">
+           <a href="https://www.escom.ipn.mx/" class="logo">ESCOM</a>
+       
+           <input type="checkbox" id="menu">
+           <label for="menu">
+               <img src="images/menu.png" class="menu-icono" alt="menu">
+           </label>
+       
+           <nav class="navbar">
+               <ul>
+                   <li><a href="../html/index.html">Inicio</a></li>
+                   <li><a href="../html/registro.html">Registro</a></li>
+                   <li><a href="../html/admin.html">Ingreso</a></li>
+               </ul>
+           </nav>
+        </div>
+        <div class="header-content container">
+            <h1>Registro de Tutorías</h1>
+        </div>
+    </header>
     
     <div class="container mt-4">
         <br><br>
@@ -154,14 +137,5 @@ $conn->close();
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="js/script.js"></script>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Core theme JS-->
-    <script src="js/scripts.js"></script>
-    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-    <!-- * *                               SB Forms JS                               * *-->
-    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 </html>

@@ -27,7 +27,6 @@ $correo = filter_var($_POST['correo'], FILTER_SANITIZE_EMAIL);
 $contrasena = $_POST['contrasena']; 
 $idTutor = filter_var($_POST['tutor'], FILTER_SANITIZE_NUMBER_INT);
 $idTipoTutoria = filter_var($_POST['tipo_tutoria'], FILTER_SANITIZE_NUMBER_INT);
-    $fecha_registro = date("Y-m-d H:i:s");
 // Validar datos
 if (empty($boleta) || strlen($boleta) != 10) {
     $errores[] = "Número de boleta inválido (debe tener 10 dígitos).";
@@ -63,7 +62,7 @@ $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
 
 // Consulta SQL (usando sentencias preparadas para mayor seguridad)
 $stmt = $conn->prepare("INSERT INTO estudiantes (boleta, nombre, apellido_paterno, apellido_materno, telefono, semestre, carrera, correo, contrasena, id_tipo_tutoria) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-$stmt->bind_param("issssssssi", $boleta, $nombre, $apellidoPaterno, $apellidoMaterno, $telefono, $semestre, $carrera, $correo, $contrasena, $idTipoTutoria);
+$stmt->bind_param("issssisssi", $boleta, $nombre, $apellidoPaterno, $apellidoMaterno, $telefono, $semestre, $carrera, $correo, $contrasena, $idTipoTutoria);
 
 if ($stmt->execute()) {
     // Verifica si se ha insertado correctamente
@@ -74,10 +73,6 @@ if ($stmt->execute()) {
 
         if ($stmt->execute()) {
             echo "Registro exitoso. ¡Bienvenido!";
-            $stmt->close();
-            $conn->close();
-            header("Location: mostrar_registro.php?error=" . urlencode($error_message));
-            exit;
         } else {
             echo "Error al asignar el tutor: " . $stmt->error;
         }
