@@ -14,6 +14,13 @@
 
         <script src="js/jquery.js"></script> 
         <script src="js/controladorRegistro.js"></script>
+        <script src="js/validacion.js"></script>
+         <style>
+        .error {
+            color: red;
+            font-size: 0.875em;
+        }
+    </style>
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -27,7 +34,6 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
                         <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="registro.html">Registro</a></li>
                         <li class="nav-item"><a class="nav-link" href="php/pdf.php">Recuperar PDF</a></li>
                         <li class="nav-item"><a class="nav-link" href="admin.html">Administrador</a></li>
                     </ul>
@@ -43,6 +49,8 @@
         </header>
     
     <div class="container mt-4">
+        
+
         
         <form id="registroForm" class="p-3 mb-2 bg-light text-dark" action="php/confirmar.php" method="POST">
             <h3 class="mb-3">Datos Personales y Académicos</h3>
@@ -98,29 +106,28 @@
             </div>
         
             <div class="form-group mb-3">
-                <label for="genero_tutor">Prefieres que tu tutor sea ¿Hombre o Mujer?</label>
-                <select class="form-select" id="genero_tutor" name="genero_tutor">
+                <label for="tutoria_select">Tutoria de tu interes</label>
+                <select class="form-select" id="tutoria_select" name="tutoria_select">
                     <option value="" disabled selected>Selecciona una opción</option>
-                    <option value="H">Hombre</option>
-                    <option value="M">Mujer</option>
+                    <option value="1">Individual</option>
+                    <option value="2">Grupal</option>
+                    <option value="3">Recuperación academica</option>
+                    <option value="4">Regularización</option>
+                    <option value="5">Entre pares</option>
                 </select>
             </div>
         
             <div class="form-group mb-3">
                 <label for="tutor">Tutores con disponibilidad</label>
                 <select class="form-select" id="tutor" name="tutor">
-                    <option value="H">Tutor</option>
+                    <option value="" disabled selected>Selecciona un tipo de tutoria</option>
                 </select>
             </div>
-        
+
             <div class="form-group mb-3">
-                <label for="tipo_tutoria">Tutoria de interes</label>
-                <select class="form-select" id="tipo_tutoria" name="tipo_tutoria">
-                    <option value="1">Individual</option>
-                    <option value="2">Grupal</option>
-                    <option value="3">Recuperación Académica</option>
-                    <option value="4">Regularización</option>
-                    <option value="5">Entre Pares</option>
+                <label for="grupo" id="grupo_label">Grupo con disponibilidad</label>
+                <select class="form-select" id="grupo" name="grupo">
+                    <option value="-1" disabled selected>Selecciona un tutor</option>
                 </select>
             </div>
         
@@ -139,15 +146,6 @@
             <button id="btnRegistrar" type="submit" class="btn btn-primary">Registrar</button>
             <button type="reset" class="btn btn-secondary">Limpiar</button>
         </form>
-
-        <div id="confirmationModal" class="modal">
-            <div class="modal-content">
-                <span class="close-button">&times;</span>
-                <div id="modalTable"></div> 
-                <button id="btnConfirmar">Confirmar</button>
-                <button id="btnModificar">Modificar</button>
-            </div>
-        </div>
 
     </div>
     <footer class="footer">

@@ -1,87 +1,74 @@
 $(document).ready(function() {
-  $("#confirmationModal").hide();
-  const $selectTutor = $("#tutor");
-  const $selectGenero = $("#genero_tutor");
+    $("#grupo").hide();
+    $("#grupo_label").hide();
+    $("#grupo_label").prop("disabled", true);
+    $("#tutor").prop("disabled", true);
 
-  $selectTutor.prop("disabled", true);
-
-  $selectGenero.change(function() {
-      const generoSeleccionado = $(this).val();
-
-      $selectTutor.empty();
-
-      jQuery.ajax({
-          url: 'php/tutoresDisponibles.php',
-          method: 'POST',
-          data: { genero: generoSeleccionado },
-          dataType: 'json',
-          success: function(data) {
-              if (data.length > 0) {
-                  $selectTutor.prop("disabled", false);
-
-                  data.forEach(tutor => {
-                      $selectTutor.append(`<option value="${tutor.id}">${tutor.nombre} ${tutor.apellido_paterno} ${tutor.apellido_materno}</option>`);
-                  });
-              } else {
-                  $selectTutor.append('<option value="">No se encontraron tutores.</option>');
-              }
-          },
-          error: function(jqXHR, textStatus, errorThrown) {
-              let errorMessage = "Error al cargar los tutores.";
-              if (jqXHR.status === 404) {
-                  errorMessage = "Archivo PHP no encontrado.";
-              } else if (jqXHR.status === 500) {
-                  errorMessage = "Error interno del servidor.";
-              }
-              alert(errorMessage);
-              console.error(errorThrown); 
-          }
-      });
-  });
-
-  /*
-    $("#registroForm").submit(function(event) {
-        event.preventDefault();
-        const formData = {};
-        $(this).serializeArray().forEach(field => {
-            formData[field.name] = field.value;
-        });
-
-        // Create the table within the modal
-        const $table = $("<table>").appendTo("#modalTable");
-        $.each(formData, function(key, value) {
-            $table.append(`<tr><td>${key}:</td><td>${value}</td></tr>`);
-        });
-
-        $("#registroForm").hide();
-        $("#confirmationModal").show();
-
-        $("#btnConfirmar").click(function() {
-            $.ajax({
-                url: 'php/registro.php', // Replace with your actual PHP endpoint
-                method: 'POST',
-                data: formData,
-                success: function(response) {
-                    $("#confirmationModal").hide();
-                    alert(response);
-                    // Handle successful registration (e.g., show a success message)
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert("Error al procesar el registro: " + errorThrown); 
-                }
-            });
-        });
-
-        $("#btnModificar").click(function() {
-            $("#confirmationModal").hide();
-            $("#registroForm").show();
-        });
-
-        $(".close-button").click(function() {
-            $("#confirmationModal").hide();
-            $("#registroForm").show();
-        });
-    });
-
- */
+    $("#tutoria_select").change(onTutoriaSelect);
+    $("#tutor").change(onTutorSelect);
 });
+
+function onTutoriaSelect() {
+    idTipoTutoria = $("#tutoria_select").val();
+    $.ajax({
+        url: 'php/tutores_disponibles.php',
+        type: 'POST',
+        data: { id_tipo_tutoria: idTipoTutoria },
+        dataType: 'json',
+        success: function(data) {
+            var select = $('#tutor');
+            select.empty();
+            select.append($('<option>', { 
+                value: "",
+                text : "Selecciona un tutor",
+                disabled: true,
+                selected: true
+            }));
+            $.each(data, function(index, item) {
+                select.append($('<option>', { 
+                    value: item.id,
+                    text : item.nombre + " " + item.apellido_paterno + " " + item.apellido_materno
+                }));
+            });
+            select.prop("disabled", false);
+        },
+        error: function(error) {
+            alert('Error: ', error);
+        }
+    });
+}
+
+
+function onTutorSelect() {
+    if ($("#tutoria_select").val() == 2) {
+        $("#grupo").show();
+        $("#grupo_label").show();
+        var idTutor = $("#tutor").val();
+
+        $.ajax({
+            url: 'php/grupos_disponibles.php',
+            type: 'POST',
+            data: { id_tutor: idTutor },
+            dataType: 'json',
+            success: function(data) {
+                var select = $('#grupo');
+                select.empty();
+                select.append($('<option>', { 
+                    value: "",
+                    text : "Selecciona un grupo",
+                    disabled: true,
+                    selected: true
+                }));
+                $.each(data, function(index, item) {
+                    select.append($('<option>', { 
+                        value: item.id_grupo,
+                        text : item.codigo_grupo
+                    }));
+                });
+            },
+            error: function(error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+}

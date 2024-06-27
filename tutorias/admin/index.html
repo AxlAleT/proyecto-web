@@ -16,7 +16,8 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="../css/styles.css" rel="stylesheet" />
     <script src="../js/jquery.js"></script>
-    <script src="js/controladorDinamicoAdmin.js"></script>
+    <script src="js/controladorAdmin.js"></script>
+    <script src="../js/validacion.js"></script>
 
 </head>
 
@@ -43,14 +44,6 @@
             <div class="masthead-heading text-uppercase">Bienvenido Administrador</div>
         </div>
     </header>
-
-    <!-- Group of Buttons -->
-    <div class="container mt-4">
-        <div class="btn-group" role="group" aria-label="Opciones de usuario">
-            <button type="button" class="btn btn-danger btn-sm" id="cerrar_sesion">Cerrar sesion</button>
-        </div>
-    </div>
-
     
     <section class="page-section" id="alumnos">
         <div class="container">
@@ -61,15 +54,12 @@
             </div>
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createFormModal">
-                        Crear Registro
-                      </button>                </div>
-                <div class="col-md-6">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar por boleta" aria-label="Buscar", maxlength="10" id="busquedaBoleta" name="busquedaBoleta">
-                        <button class="btn btn-outline-secondary" type="button" id="buscar">Buscar</button>
-                    </div>
+                    <button id="crear_registro" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createFormModal">Crear Registro</button>
+                    <button id="actualizar" type="button" class="btn btn-success" data-bs-toggle="modal">Actualizar</button>      
+                    <button type="button" class="btn btn-danger " id="cerrar_sesion">Cerrar sesion</button>
                 </div>
+
+               
             </div>
 
             <div class="row mb-3">
@@ -82,7 +72,7 @@
                         </div>
                         <div class="modal-body">
 
-                            <form id="registroForm" class="p-3 mb-2 bg-light text-dark">
+                            <form id="registroForm" class="p-3 mb-2 bg-light text-dark" action="php/confirmar.php" method="POST">
                                 <h3 class="mb-3">Datos Personales y Académicos</h3>
                             
                                 <div class="form-group mb-3">
@@ -136,29 +126,28 @@
                                 </div>
                             
                                 <div class="form-group mb-3">
-                                    <label for="genero_tutor">Prefieres que tu tutor sea ¿Hombre o Mujer?</label>
-                                    <select class="form-select" id="genero_tutor" name="genero_tutor">
+                                    <label for="tutoria_select">Tutoria de tu interes</label>
+                                    <select class="form-select" id="tutoria_select" name="tutoria_select">
                                         <option value="" disabled selected>Selecciona una opción</option>
-                                        <option value="H">Hombre</option>
-                                        <option value="M">Mujer</option>
+                                        <option value="1">Individual</option>
+                                        <option value="2">Grupal</option>
+                                        <option value="3">Recuperación academica</option>
+                                        <option value="4">Regularización</option>
+                                        <option value="5">Entre pares</option>
                                     </select>
                                 </div>
                             
                                 <div class="form-group mb-3">
                                     <label for="tutor">Tutores con disponibilidad</label>
                                     <select class="form-select" id="tutor" name="tutor">
-                                        <option value="H">Tutor</option>
+                                        <option value="" disabled selected>Selecciona un tipo de tutoria</option>
                                     </select>
                                 </div>
-                            
+                    
                                 <div class="form-group mb-3">
-                                    <label for="tipo_tutoria">Tutoria de interes</label>
-                                    <select class="form-select" id="tipo_tutoria" name="tipo_tutoria">
-                                        <option value="1">Individual</option>
-                                        <option value="2">Grupal</option>
-                                        <option value="3">Recuperación Académica</option>
-                                        <option value="4">Regularización</option>
-                                        <option value="5">Entre Pares</option>
+                                    <label for="grupo" id="grupo_label">Grupo con disponibilidad</label>
+                                    <select class="form-select" id="grupo" name="grupo">
+                                        <option value="-1" disabled selected>Selecciona un tutor</option>
                                     </select>
                                 </div>
                             
@@ -173,12 +162,128 @@
                                     <label for="contrasena">Contraseña:</label>
                                     <input type="password" class="form-control" id="contrasena" name="contrasena" required>
                                 </div>
+                            
+                                <button type="reset" class="btn btn-secondary">Limpiar</button>
                             </form>
 
                         </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary" id="submitForm">Enviar</button>
+                        <button type="button" class="btn btn-primary" id="btnRegistrar">Enviar</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="modal fade" id="updateFormModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel">Update</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <form id="registroForm" class="p-3 mb-2 bg-light text-dark" action="php/confirmar.php" method="POST">
+                                <h3 class="mb-3">Datos Personales y Académicos</h3>
+                            
+                                <div class="form-group mb-3">
+                                    <label for="boleta">No. de Boleta:</label>
+                                    <input type="text" class="form-control" id="Uboleta" name="boleta" maxlength="10" required>
+                                </div>
+                            
+                                <div class="form-group mb-3">
+                                    <label for="nombre">Nombre:</label>
+                                    <input type="text" class="form-control" id="Unombre" name="nombre" required>
+                                </div>
+                            
+                                <div class="form-group mb-3">
+                                    <label for="AP">Apellido Paterno:</label>
+                                    <input type="text" class="form-control" id="UAP" name="AP" required>
+                                </div>
+                            
+                                <div class="form-group mb-3">
+                                    <label for="AM">Apellido Materno</label>
+                                    <input type="text" class="form-control" id="UAM" name="AM" required>
+                                </div>
+                            
+                                <div class="form-group mb-3">
+                                    <label for="telefono">Número de telefono:</label>
+                                    <input type="tel" class="form-control" id="Utel" name="tel" maxlength="10" required>
+                                </div>
+                            
+                                <div class="form-group mb-3">
+                                    <label for="semestre">No de Semestre</label>
+                                    <select class="form-select" id="Usemestre" name="semestre">
+                                        <option value="1">Primero</option>
+                                        <option value="2">Segundo</option>
+                                        <option value="3">Tercero</option>
+                                        <option value="4">Cuarto</option>
+                                        <option value="5">Quinto</option>
+                                        <option value="6">Sexto</option>
+                                        <option value="7">Séptimo</option>
+                                        <option value="8">Octavo</option>
+                                        <option value="9">Noveno</option>
+                                        <option value="10">Décimo</option>
+                                    </select>
+                                </div>
+                            
+                                <div class="form-group mb-3">
+                                    <label for="carrera">Carrera que estas cursando</label>
+                                    <select class="form-select" id="Ucarrera" name="carrera">
+                                        <option value="ISC">Ingenieria en Sistemas Computacionales</option>
+                                        <option value="LCD">Licenciatura en Ciencia de Datos</option>
+                                        <option value="IIA">Ingenieria en Inteligencia Artificial</option>
+                                    </select>
+                                </div>
+                            
+                                <div class="form-group mb-3">
+                                    <label for="tutoria_select">Tutoria de tu interes</label>
+                                    <select class="form-select" id="Ututoria_select" name="tutoria_select">
+                                        <option value="" disabled selected>Selecciona una opción</option>
+                                        <option value="1">Individual</option>
+                                        <option value="2">Grupal</option>
+                                        <option value="3">Recuperación academica</option>
+                                        <option value="4">Regularización</option>
+                                        <option value="5">Entre pares</option>
+                                    </select>
+                                </div>
+                            
+                                <div class="form-group mb-3">
+                                    <label for="tutor">Tutores con disponibilidad</label>
+                                    <select class="form-select" id="Ututor" name="tutor">
+                                        <option value="" disabled selected>Selecciona un tipo de tutoria</option>
+                                    </select>
+                                </div>
+                    
+                                <div class="form-group mb-3">
+                                    <label for="grupo" id="grupo_label">Grupo con disponibilidad</label>
+                                    <select class="form-select" id="Ugrupo" name="grupo">
+                                        <option value="-1" disabled selected>(Opcional)</option>
+                                    </select>
+                                </div>
+                            
+                                <h3 class="mb-3">Cuenta</h3>
+                            
+                                <div class="form-group mb-3">
+                                    <label for="correo">Correo Institucional</label>
+                                    <input type="email" class="form-control" id="Ucorreo" name="correo" required>
+                                </div>
+                            
+                                <div class="form-group mb-3">
+                                    <label for="contrasena">Contraseña (campo vacio = mantener Contraseña vieja):</label>
+                                    <input type="password" class="form-control" id="Ucontrasena" name="contrasena" required>
+                                </div>
+                            
+                                <button type="reset" class="btn btn-secondary">Limpiar</button>
+                            </form>
+
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" id="UbtnRegistrar">Enviar</button>
                         </div>
                     </div>
                     </div>
@@ -211,10 +316,6 @@
             </div>
         </div>
     </section>
-
-
-    
-
 
     <!-- Footer-->
     <footer class="footer">

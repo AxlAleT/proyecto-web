@@ -1,12 +1,8 @@
 <?php
-session_start();
-if (!isset($_SESSION['admin'])) {
-    header("Location: ../../admin.html");
-    exit();
-}
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+session_start();
 header('Content-Type: application/json');
 
 $servername = "localhost";
@@ -95,6 +91,7 @@ if ($fila['conteo_actual'] < $fila['cupo_maximo']) {
 
     if ($stmt->execute()) {
         echo json_encode(["mensaje" => "Alumno_creado_exitosamente"]);
+        header('Location: ../registro.html?status=success');
     } else {
         echo json_encode(["error" => "Error al registrar: " . $stmt->error]);
     }

@@ -1,55 +1,73 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 session_start();
+if (!isset($_SESSION['admin'])) {
+    header("Location: ../../admin.html");
+    exit();
+}
 header('Content-Type: application/json');
-
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "tutorias";
 
+// Conexión a la base de datos
 $conn = new mysqli($servername, $username, $password, $dbname);
-
 if ($conn->connect_error) {
-    die(json_encode(["error" => "Error de conexión: " . $conn->connect_error]));
+    die("Connection failed: " . $conn->connect_error);
 }
 
-if (!isset($_POST['busquedaBoleta'])) {
-    die(json_encode(["error" => "Falta el campo busquedaBoleta"]));
-}
+// Verificar si se ha enviado una boleta
+if (isset($_POST['boleta'])) {
+    $boleta = $conn->real_escape_string($_POST['boleta']);
 
-$boleta = filter_var($_POST['busquedaBoleta'], FILTER_SANITIZE_NUMBER_INT);
-
-$sql = "SELECT e.boleta, e.nombre, e.apellido_paterno, e.apellido_materno, e.telefono, e.semestre, e.carrera, e.correo, tt.nombre AS tipo_tutoria, t.nombre AS nombre_tutor, t.apellido_paterno AS apellido_paterno_tutor, t.apellido_materno AS apellido_materno_tutor
-        FROM estudiantes e
-        LEFT JOIN tipoTutoria tt ON e.id_tipo_tutoria = tt.id_tipo_tutoria
-        LEFT JOIN estudianteTutor et ON e.boleta = et.id_estudiante
-        LEFT JOIN tutores t ON et.id_tutor = t.id
-        WHERE e.boleta = ?";
-
-$stmt = $conn->prepare($sql);
-
-if (!$stmt) {
-    echo json_encode(["error" => "Error en la preparación de la consulta: " . $conn->error]);
-    exit();
-}
-
-$stmt->bind_param("i", $boleta);
-
-if ($stmt->execute()) {
+    // Consulta preparada para evitar inyecciones SQL
+    $sql = "SELECT e.boleta, e.nombre AS nombre_estudiante, e.apellido_paterno, e.apellido_materno, e.telefono, e.semestre, e.carrera, e.correo, e.id_grupo, g.codigo_grupo, t.id AS id_tutor, t.nombre AS nombre_tutor, t.apellido_paterno AS apellido_paterno_tutor, t.apellido_materno AS apellido_materno_tutor, tt.id_tipo_tutoria, tt.nombre AS nombre_tipo_tutoria
+            FROM estudiantes e
+            JOIN grupo g ON e.id_grupo = g.id_grupo
+            JOIN tutores t ON g.id_tutor = t.id
+            JOIN tipo_tutoria tt ON g.id_tipo_tutoria = tt.id_tipo_tutoria
+            WHERE e.boleta = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $boleta);
+    $stmt->execute();
     $result = $stmt->get_result();
+
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        echo json_encode($row);
+        $alumno = [
+            'boleta' => $row['boleta'],
+            'nombre' => $row['nombre_estudiante'],
+            'apellido_paterno' => $row['apellido_paterno'],
+            'apellido_materno' => $row['apellido_materno'],
+            'telefono' => $row['telefono'],
+            'semestre' => $row['semestre'],
+            'carrera' => $row['carrera'],
+            'correo' => $row['correo'],
+            'grupo' => [
+                'id_grupo' => $row['id_grupo'],
+                'codigo_grupo' => $row['codigo_grupo']
+            ],
+            'tutor' => [
+                'id_tutor' => $row['id_tutor'],
+                'nombre' => $row['nombre_tutor'],
+                'apellido_paterno' => $row['apellido_paterno_tutor'],
+                'apellido_materno' => $row['apellido_materno_tutor']
+            ],
+            'tipo_tutoria' => [
+                'id_tipo_tutoria' => $row['id_tipo_tutoria'],
+                'nombre' => $row['nombre_tipo_tutoria']
+            ]
+        ];
+        echo json_encode(['success' => true, 'alumno' => $alumno]);
     } else {
-        echo json_encode(["error" => "No se encontró al estudiante con la boleta especificada"]);
+        // No se encontró el alumno
+        echo json_encode(['success' => false, 'message' => 'No se encontró el alumno con la boleta proporcionada.']);
     }
+    $stmt->close();
 } else {
-    echo json_encode(["error" => "Error al ejecutar la consulta: " . $stmt->error]);
+    // No se proporcionó una boleta
+    echo json_encode(['success' => false, 'message' => 'No se proporcionó una boleta.']);
 }
 
-$stmt->close();
 $conn->close();
 ?>

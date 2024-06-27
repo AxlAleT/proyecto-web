@@ -1,61 +1,55 @@
 <?php
 session_start();
-header('Content-Type: application/json');
-
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "tutorias";
-$conn = new mysqli($servername, $username, $password, $dbname);
-
 if (!isset($_SESSION['admin'])) {
     header("Location: ../../admin.html");
     exit();
 }
 
-if ($conn->connect_error) {
-    die(json_encode(array("error" => "Error de conexión: " . $conn->connect_error)));
-}
-
+// Verificar si se recibió la boleta por POST
 if (!isset($_POST['boleta'])) {
-    echo json_encode(array("error" => "No se proporcionó la boleta del alumno"));
+    echo json_encode(['error' => 'No se proporcionó la boleta del alumno.']);
     exit();
 }
 
 $boleta = $_POST['boleta'];
 
-// Iniciar transacción
-$conn->begin_transaction();
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "tutorias";
 
-try {
-    // Eliminar relaciones en estudianteTutor
-    $sql = "DELETE FROM estudianteTutor WHERE id_estudiante = ?";
-    $stmt = $conn->prepare($sql);
-    if (!$stmt) {
-        throw new Exception("Error en la preparación de la consulta: " . $conn->error);
-    }
-    $stmt->bind_param("i", $boleta);
-    $stmt->execute();
-    $stmt->close();
+// Crear conexión
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-    // Eliminar alumno
-    $sql = "DELETE FROM estudiantes WHERE boleta = ?";
-    $stmt = $conn->prepare($sql);
-    if (!$stmt) {
-        throw new Exception("Error en la preparación de la consulta: " . $conn->error);
-    }
-    $stmt->bind_param("i", $boleta);
-    $stmt->execute();
-    $stmt->close();
-
-    // Si todo fue exitoso, commit
-    $conn->commit();
-    echo json_encode(array("mensaje" => "Alumno eliminado exitosamente"));
-} catch (Exception $e) {
-    // En caso de error, rollback
-    $conn->rollback();
-    echo json_encode(array("error" => $e->getMessage()));
+// Verificar conexión
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 
+// Preparar la consulta para eliminar al alumno
+$sql = "DELETE FROM estudiantes WHERE boleta = ?";
+
+// Preparar sentencia
+$stmt = $conn->prepare($sql);
+if (!$stmt) {
+    echo json_encode(['error' => 'Error al preparar la consulta: ' . $conn->error]);
+    $conn->close();
+    exit();
+}
+
+// Vincular parámetros
+$stmt->bind_param("i", $boleta);
+
+// Ejecutar sentencia
+if ($stmt->execute()) {
+    echo json_encode(['success' => 'Alumno eliminado correctamente.']);
+} else {
+    echo json_encode(['error' => 'Error al eliminar al alumno: ' . $stmt->error]);
+}
+
+// Cerrar sentencia
+$stmt->close();
+
+// Cerrar conexión
 $conn->close();
 ?>

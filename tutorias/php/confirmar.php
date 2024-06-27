@@ -24,11 +24,12 @@
         document.getElementById("tel").disabled = false;
         document.getElementById("semestre").disabled = false;
         document.getElementById("carrera").disabled = false;
-        document.getElementById("genero_tutor").disabled = false;
-        document.getElementById("tipo_tutoria").disabled = false;
-        document.getElementById("tutor").disabled = false;
+        document.getElementById("id_tipo_tutoria").disabled = false;
+        document.getElementById("id_tutor").disabled = false;
+        document.getElementById("grupo").disabled = false;
         document.getElementById("correo").disabled = false;
         document.getElementById("contrasena").disabled = false;
+
     }
 </script>
     </head>
@@ -45,7 +46,7 @@
                     <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
                         <li class="nav-item"><a class="nav-link" href="../index.html">Inicio</a></li>
                         <li class="nav-item"><a class="nav-link" href="../registro.html">Registro</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#Administrador">Administrador</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../administrador">Administrador</a></li>
                     </ul>
                 </div>
             </div>
@@ -59,7 +60,7 @@
         </header>
         <div class="container mt-4">
 
-        <form id="confirmarForm" action="registro.php" method="POST">
+        <form id="confirmarForm" action="create.php" method="POST">
             <h3>Confirmación de Registro</h3>
             <p>Formulario enviado con éxito</p>
             <strong>No. de Boleta:</strong><input type="text" class="form-control" id="boleta" name="boleta" value="<?php echo htmlspecialchars($_POST['boleta']); ?>" disabled>
@@ -69,11 +70,12 @@
             <strong>Telefono:</strong><input type="tel" class="form-control" id="tel" name="tel" value="<?php echo htmlspecialchars($_POST['tel']); ?>" disabled>
             <strong>Semestre:</strong><input type="text" class="form-control" id="semestre" name="semestre" value="<?php echo htmlspecialchars($_POST['semestre']); ?>" disabled>
             <strong>Carrera:</strong><input type="text" class="form-control" id="carrera" name="carrera" value="<?php echo htmlspecialchars($_POST['carrera']); ?>" disabled>
-            <strong>Genero del tutor:</strong><input type="text" class="form-control" id="genero_tutor" name="genero_tutor" value="<?php echo htmlspecialchars($_POST['genero_tutor']); ?>" disabled>
-            <strong>Tutor:</strong><input type="text" class="form-control" id="tutor" name="tutor" value="<?php echo htmlspecialchars($_POST['tutor']); ?>" disabled>
-            <strong>Tipo de tutoria:</strong><input type="text" class="form-control" id="tipo_tutoria" name="tipo_tutoria" value="<?php echo htmlspecialchars($_POST['tipo_tutoria']); ?>" disabled>
+            <strong>Tipo de tutoria:</strong><input type="text" class="form-control" id="id_tipo_tutoria" name="id_tipo_tutoria" value="<?php echo htmlspecialchars($_POST['tutoria_select']); ?>" disabled>
+            <strong>Tutor:</strong><input type="text" class="form-control" id="id_tutor" name="id_tutor" value="<?php echo htmlspecialchars($_POST['tutor']); ?>" disabled>
+            <strong>Grupo:</strong><input type="text" class="form-control" id="grupo" name="grupo" value="<?php echo htmlspecialchars($_POST['grupo']); ?>" disabled>
             <strong>Correo:</strong><input type="email" class="form-control" id="correo" name="correo" value="<?php echo htmlspecialchars($_POST['correo']); ?>" disabled>
             <strong>Contraseña:</strong><input type="text" class="form-control" id="contrasena" name="contrasena" value="<?php echo htmlspecialchars($_POST['contrasena']); ?>" disabled>
+
             <br><br>
             <button type="submit" class="btn btn-primary" onclick="habilitarCampos()">Aceptar</button>
             <button type="button" class="btn btn-secondary" onclick="habilitarCampos()">Modificar</button>
