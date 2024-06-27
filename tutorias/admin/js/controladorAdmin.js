@@ -97,6 +97,7 @@ function onModificarClick(boleta) {
                 $('#Ucarrera').val(alumno.carrera);
                 $('#Ucorreo').val(alumno.correo);
                 $('#Ututoria_select').val(alumno.tipo_tutoria.id_tipo_tutoria);
+                $('#Ugenero').val(alumno.tutor.genero);
                 onUTutoriaSelect();
                 $('#Ututor').val(alumno.tutor.id_tutor);
                 onUTutorSelect();
@@ -146,10 +147,15 @@ function onModificarClick(boleta) {
 
 function onUTutoriaSelect() {
     idTipoTutoria = $("#Ututoria_select").val();
+    onUGeneroSelect(idTipoTutoria);
+}
+
+function onUGeneroSelect(idTipoTutoria){
+    Ugenero = $("#Ugenero").val();
     $.ajax({
         url: '../php/tutores_disponibles.php',
         type: 'POST',
-        data: { id_tipo_tutoria: idTipoTutoria },
+        data: { id_tipo_tutoria: idTipoTutoria, genero: Ugenero},
         dataType: 'json',
         success: function(data) {
             var select = $('#Ugrupo');
@@ -183,7 +189,6 @@ function onUTutoriaSelect() {
         }
     });
 }
-
 
 function onUTutorSelect() {
     if ($("#Ututoria_select").val() == 2) {
@@ -236,10 +241,16 @@ function onCrearRegistroClick() {
 
 function onTutoriaSelect() {
     idTipoTutoria = $("#tutoria_select").val();
+    onGeneroSelect(idTipoTutoria);
+}
+
+
+function onGeneroSelect(idTipoTutoria){
+    varGenero = $("genero").val();
     $.ajax({
         url: '../php/tutores_disponibles.php',
         type: 'POST',
-        data: { id_tipo_tutoria: idTipoTutoria },
+        data: { id_tipo_tutoria: idTipoTutoria, genero: varGenero},
         dataType: 'json',
         success: 
         function(data) {
@@ -272,7 +283,6 @@ function onTutoriaSelect() {
         }
     });
 }
-
 
 function onTutorSelect() {
     if ($("#tutoria_select").val() == 2) {
