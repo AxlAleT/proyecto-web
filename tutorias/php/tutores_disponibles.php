@@ -16,9 +16,16 @@ if ($conn->connect_error) {
 }
 
 $id_tipo_tutoria = isset($_POST['id_tipo_tutoria']) ? $_POST['id_tipo_tutoria'] : '';
+$genero = isset($_POST['genero']) ? $_POST['genero'] : '';
 
 if (empty($id_tipo_tutoria)) {
     echo json_encode(["error" => "El id_tipo_tutoria es requerido"]);
+    $conn->close();
+    exit();
+}
+
+if (empty($genero)) {
+    echo json_encode(["error" => "El genero es requerido"]);
     $conn->close();
     exit();
 }
@@ -36,12 +43,12 @@ WHERE id IN (
         LEFT JOIN estudiantes e ON g.id_grupo = e.id_grupo
         GROUP BY g.id_grupo, t.cupo_maximo
         HAVING COUNT(e.boleta) < t.cupo_maximo
-    )
+    ) AND genero = ?
 );
 ";
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $id_tipo_tutoria);
+$stmt->bind_param("is", $id_tipo_tutoria, $genero);
 $stmt->execute();
 $result = $stmt->get_result();
 
