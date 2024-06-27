@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const AP = document.getElementById('AP');
     const AM = document.getElementById('AM');
     const tel = document.getElementById('tel');
+    const correo = document.getElementById('correo'); // Añadido para la validación del correo
 
     const setError = (element, message) => {
         const errorDiv = element.nextElementSibling;
@@ -40,6 +41,12 @@ document.addEventListener('DOMContentLoaded', function () {
     tel.addEventListener('input', function () {
         const phonePattern = /^\d{0,10}$/;
         validateField(tel, phonePattern, 'El número de teléfono debe ser un número de hasta 10 dígitos.');
+    });
+
+    // Añadido para la validación del correo
+    correo.addEventListener('input', function () {
+        const emailPattern = /^[^@]+@ipn\.mx$/;
+        validateField(correo, emailPattern, 'El correo debe terminar en @ipn.mx.');
     });
 
     const form = document.getElementById('registroForm');
@@ -79,6 +86,14 @@ document.addEventListener('DOMContentLoaded', function () {
             valid = false;
         } else {
             clearError(tel);
+        }
+
+        // Añadido para la validación del correo en el evento submit
+        if (!emailPattern.test(correo.value)) {
+            setError(correo, 'El correo debe terminar en @ipn.mx.');
+            valid = false;
+        } else {
+            clearError(correo);
         }
 
         if (!valid) {
