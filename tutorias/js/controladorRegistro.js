@@ -14,7 +14,8 @@ function onTutoriaSelect() {
 }
 
 function onGeneroSelect(idTipoTutoria){
-    varGenero = $('genero').val();
+    varGenero = $('#genero').val();
+    
     $.ajax({
         url: 'php/tutores_disponibles.php',
         type: 'POST',
