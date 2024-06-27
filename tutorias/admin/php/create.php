@@ -44,7 +44,6 @@ if ($idGrupo === -1 || $idGrupo === null || $idGrupo === "" || !isset($_POST['gr
     // Buscar un grupo con disponibilidad
     $sqlBuscarGrupo = "SELECT g.id_grupo FROM grupo g JOIN tipo_tutoria tt ON g.id_tipo_tutoria = tt.id_tipo_tutoria WHERE g.id_tipo_tutoria = ? AND g.id_tutor = ? AND (SELECT COUNT(e.id_grupo) FROM estudiantes e WHERE e.id_grupo = g.id_grupo) < tt.cupo_maximo LIMIT 1";
 
-    // Asumiendo que estos valores vienen de algún lugar, por ejemplo, $_POST
     $idTipoTutoria = filter_var($_POST['id_tipo_tutoria'], FILTER_SANITIZE_NUMBER_INT);
     $idTutor = filter_var($_POST['id_tutor'], FILTER_SANITIZE_NUMBER_INT);
 

@@ -32,6 +32,19 @@
 
     }
 </script>
+<script src="../js/validacion.js"></script>
+<style>
+        .error {
+            border: 1px solid red;
+        
+        }
+        .error-message {
+            color: red;
+            font-size: 0.875em;
+            margin-top: 0.25em;
+        }
+    </style>
+    
     </head>
     <body id="page-top">
         <!-- Navigation-->

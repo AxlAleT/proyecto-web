@@ -1,34 +1,41 @@
+
 document.addEventListener('DOMContentLoaded', function () {
     const boleta = document.getElementById('boleta');
     const nombre = document.getElementById('nombre');
     const AP = document.getElementById('AP');
     const AM = document.getElementById('AM');
     const tel = document.getElementById('tel');
-    const correo = document.getElementById('correo'); // Añadido para la validación del correo
+    const correo = document.getElementById('correo');
+    const contrasena = document.getElementById('contrasena');
 
     const setError = (element, message) => {
         const errorDiv = element.nextElementSibling;
         errorDiv.textContent = message;
-        element.classList.add('error');  
+        element.classList.add('error');
     };
 
     const clearError = (element) => {
         const errorDiv = element.nextElementSibling;
         errorDiv.textContent = '';
-        element.classList.remove('error');  
+        element.classList.remove('error');
     };
 
     const validateField = (element, pattern, message) => {
-        if (!pattern.test(element.value)) {
+        if (!element.value.trim()) {
+            setError(element, 'Este campo es obligatorio.');
+            return false;
+        } else if (!pattern.test(element.value)) {
             setError(element, message);
+            return false;
         } else {
             clearError(element);
+            return true;
         }
     };
 
     boleta.addEventListener('input', function () {
-        const boletaPattern = /^\d{0,10}$/;
-        validateField(boleta, boletaPattern, 'El No. de Boleta debe ser un número de hasta 10 dígitos.');
+        const boletaPattern = /^\d{10}$/;
+        validateField(boleta, boletaPattern, 'El No. de Boleta debe ser un número de 10 dígitos.');
     });
 
     const namePattern = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/;
@@ -39,65 +46,65 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     tel.addEventListener('input', function () {
-        const phonePattern = /^\d{0,10}$/;
-        validateField(tel, phonePattern, 'El número de teléfono debe ser un número de hasta 10 dígitos.');
+        const phonePattern = /^\d{10}$/;
+        validateField(tel, phonePattern, 'El número de teléfono debe ser un número de 10 dígitos.');
     });
 
-    // Añadido para la validación del correo
     correo.addEventListener('input', function () {
         const emailPattern = /^[^@]+@ipn\.mx$/;
-        validateField(correo, emailPattern, 'El correo debe terminar en @ipn.mx.');
+        validateField(correo, emailPattern, 'El correo debe terminar con @ipn.mx.');
+    });
+
+    contrasena.addEventListener('input', function () {
+        const passwordPattern = /^.{6,}$/;
+        validateField(contrasena, passwordPattern, 'La contraseña debe tener al menos 6 caracteres.');
     });
 
     const form = document.getElementById('registroForm');
     form.addEventListener('submit', function (event) {
         let valid = true;
+        let firstInvalidElement = null;
 
-        if (boleta.value.length !== 10) {
-            setError(boleta, 'El No. de Boleta debe ser un número de 10 dígitos.');
+        if (!validateField(boleta, /^\d{10}$/, 'El No. de Boleta debe ser un número de 10 dígitos.')) {
             valid = false;
-        } else {
-            clearError(boleta);
+            firstInvalidElement = firstInvalidElement || boleta;
         }
 
-        if (nombre.value.trim() === '' || !namePattern.test(nombre.value)) {
-            setError(nombre, 'El nombre solo puede contener letras, espacios y acentos.');
+        if (!validateField(nombre, namePattern, 'El nombre solo puede contener letras, espacios y acentos.')) {
             valid = false;
-        } else {
-            clearError(nombre);
+            firstInvalidElement = firstInvalidElement || nombre;
         }
 
-        if (AP.value.trim() === '' || !namePattern.test(AP.value)) {
-            setError(AP, 'El apellido paterno solo puede contener letras, espacios y acentos.');
+        if (!validateField(AP, namePattern, 'El apellido paterno solo puede contener letras, espacios y acentos.')) {
             valid = false;
-        } else {
-            clearError(AP);
+            firstInvalidElement = firstInvalidElement || AP;
         }
 
-        if (AM.value.trim() === '' || !namePattern.test(AM.value)) {
-            setError(AM, 'El apellido materno solo puede contener letras, espacios y acentos.');
+        if (!validateField(AM, namePattern, 'El apellido materno solo puede contener letras, espacios y acentos.')) {
             valid = false;
-        } else {
-            clearError(AM);
+            firstInvalidElement = firstInvalidElement || AM;
         }
 
-        if (tel.value.length !== 10) {
-            setError(tel, 'El número de teléfono debe ser un número de 10 dígitos.');
+        if (!validateField(tel, /^\d{10}$/, 'El número de teléfono debe ser un número de 10 dígitos.')) {
             valid = false;
-        } else {
-            clearError(tel);
+            firstInvalidElement = firstInvalidElement || tel;
         }
 
-        // Añadido para la validación del correo en el evento submit
-        if (!emailPattern.test(correo.value)) {
-            setError(correo, 'El correo debe terminar en @ipn.mx.');
+        if (!validateField(correo, /^[^@]+@ipn\.mx$/, 'El correo debe terminar con @ipn.mx.')) {
             valid = false;
-        } else {
-            clearError(correo);
+            firstInvalidElement = firstInvalidElement || correo;
+        }
+
+        if (!validateField(contrasena, /^.{6,}$/, 'La contraseña debe tener al menos 6 caracteres.')) {
+            valid = false;
+            firstInvalidElement = firstInvalidElement || contrasena;
         }
 
         if (!valid) {
             event.preventDefault();
+            firstInvalidElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            firstInvalidElement.focus();
         }
     });
 });
+

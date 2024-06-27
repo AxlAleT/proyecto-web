@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require('fpdf/fpdf.php'); // Asegúrate de que la ruta sea correcta
+require('fpdf/fpdf.php'); 
 
 $servername = "localhost";
 $username = "root";
@@ -35,7 +35,6 @@ if (isset($_POST['boleta']) && isset($_POST['contrasena'])) {
                 
                 $boleta = $_POST['boleta'];
 
-                // Obtener el registro más reciente
                 $sql = "
                 SELECT 
                     e.boleta, 
@@ -69,7 +68,6 @@ if (isset($_POST['boleta']) && isset($_POST['contrasena'])) {
 
                 if ($result) {
                     if ($result->num_rows > 0) {
-                        // Mostrar los datos del registro más reciente
                         $row = $result->fetch_assoc();
                         $boleta = $row['boleta'];
                         $nombre = $row['nombre'];
@@ -95,15 +93,13 @@ if (isset($_POST['boleta']) && isset($_POST['contrasena'])) {
                 $pdf = new FPDF();
                 $pdf->AddPage();
 
-                // Agregar una imagen en la parte superior izquierda
-                // Asegúrate de que la ruta de la imagen sea correcta
                 $imagePath = '../assets/img/IPN-Logo.png';
                 $pdf->Image($imagePath, 10, 10, 60, 30); // (ruta, x, y, ancho, alto)
 
                 $imageRightPath = '../assets/img/logoescom.png'; // Ruta relativa a la imagen derecha
                 $imageWidth = 40; // Ancho de la imagen
                 $pageWidth = $pdf->GetPageWidth();
-                $rightImageX = $pageWidth - $imageWidth - 10; // Calcula la posición x para la imagen de la derecha
+                $rightImageX = $pageWidth - $imageWidth - 10; 
                 $pdf->Image($imageRightPath, $rightImageX, 10, $imageWidth, 30); // (ruta, x, y, ancho, alto)
 
                 // Configurar fuente

@@ -20,7 +20,6 @@ if ($conn->connect_error) {
 if (isset($_POST['boleta'])) {
     $boleta = $conn->real_escape_string($_POST['boleta']);
 
-    // Consulta preparada para evitar inyecciones SQL
     $sql = "SELECT e.boleta, e.nombre AS nombre_estudiante, e.apellido_paterno, e.apellido_materno, e.telefono, e.semestre, e.carrera, e.correo, e.id_grupo, g.codigo_grupo, t.id AS id_tutor, t.nombre AS nombre_tutor, t.apellido_paterno AS apellido_paterno_tutor, t.apellido_materno AS apellido_materno_tutor, tt.id_tipo_tutoria, tt.nombre AS nombre_tipo_tutoria
             FROM estudiantes e
             JOIN grupo g ON e.id_grupo = g.id_grupo
