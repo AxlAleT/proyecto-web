@@ -10,10 +10,15 @@ $(document).ready(function() {
 
 function onTutoriaSelect() {
     idTipoTutoria = $("#tutoria_select").val();
+    onGeneroSelect(idTipoTutoria);
+}
+
+function onGeneroSelect(idTipoTutoria){
+    varGenero = $('genero').val();
     $.ajax({
         url: 'php/tutores_disponibles.php',
         type: 'POST',
-        data: { id_tipo_tutoria: idTipoTutoria },
+        data: { id_tipo_tutoria: idTipoTutoria, genero: varGenero },
         dataType: 'json',
         success: function(data) {
             var select = $('#tutor');
@@ -35,7 +40,7 @@ function onTutoriaSelect() {
         error: function(error) {
             alert('Error: ', error);
         }
-    });
+    });  
 }
 
 
